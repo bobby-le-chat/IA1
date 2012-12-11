@@ -8,7 +8,6 @@
 
 #include "IA1_Core.h"
 #include "IA1_Parser.h"
-#include "IA1_Line.h"
 
 namespace IA1
 {

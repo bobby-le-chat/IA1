@@ -10,7 +10,7 @@
 namespace IA1
 {
 
-	Parser::Parser(std::string path)
+	Parser::Parser(const std::string& path)
 		: _path(path)
 	{
 		this->_fd = new std::filebuf();

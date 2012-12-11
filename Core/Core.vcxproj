@@ -60,7 +60,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="IA1_Core.cpp" />
+    <ClCompile Include="IA1_Parameter.cpp" />
+    <ClCompile Include="IA1_Parser.cpp" />
+    <ClCompile Include="IA1_Stat.cpp" />
+    <ClCompile Include="IA1_Value.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IA1_Core.h" />
+    <ClInclude Include="IA1_enum.h" />
+    <ClInclude Include="IA1_Line.h" />
+    <ClInclude Include="IA1_Parameter.h" />
+    <ClInclude Include="IA1_Parser.h" />
+    <ClInclude Include="IA1_Stat.h" />
+    <ClInclude Include="IA1_Value.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
