@@ -12,7 +12,7 @@ namespace IA1
 		cops,
 		timeOfDay,
 		weekEnd,
-		hollidays,
+		holidays,
 		race,
 		gender,
 		age,
@@ -69,6 +69,15 @@ namespace IA1
 		
 		nullValueList = 0
 
+	};
+	enum answer
+	{
+		controlled,
+		notControlled,
+		fiftyfifty,
+		unknow,
+
+		nullAnswer
 	};
 
 }

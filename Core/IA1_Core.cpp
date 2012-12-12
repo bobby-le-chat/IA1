@@ -8,12 +8,14 @@
 
 #include "IA1_Core.h"
 #include "IA1_Parser.h"
+#include "IA1_Answer.h"
 
 namespace IA1
 {
 	Core::Core(const std::string& refPath, double probaRequiered)
 		: _refPath(refPath), _probaRequiered(probaRequiered)
 	{
+		this->fillDataBase();
 		for (int i = IA1::nbControler; i <= IA1::control; i++)
 		{
 			this->_ParameterList.insert(std::pair<IA1::argumentOrder, Parameter>((IA1::argumentOrder)i, Parameter((IA1::argumentOrder)i)));
@@ -62,25 +64,35 @@ namespace IA1
 		std::map<IA1::argumentOrder, IA1::valueList> *map;
 		while ((map = parser->getLine()) != NULL)
 		{
-			this->_dataBase.push_back(*map);
+			this->_fullDataBase.push_back(*map);
 			delete map;
 		}
 		delete parser;
 	}
-	bool	Core::checkLineValidity(std::map<IA1::argumentOrder, IA1::valueList> line)
+	void	Core::resetDataBase()
+	{
+		this->_dataBase.clear();
+		for (std::list<std::map<IA1::argumentOrder, IA1::valueList>>::iterator it = this->_fullDataBase.begin();
+			it != this->_fullDataBase.end();
+			it++)
+		{
+			this->_dataBase.push_back(&(*it));
+		}
+	}
+	bool	Core::checkLineValidity(std::map<IA1::argumentOrder, IA1::valueList> *line)
 	{
 		for (std::map<IA1::argumentOrder, IA1::valueList>::iterator it = this->_selectedNodes.begin();
 			it != this->_selectedNodes.end();
 			it++)
 		{
-			if (line[(*it).first] != (*it).second)
+			if (line->operator[]((*it).first) != (*it).second)
 				return false;
 		}
 		return true;
 	}
 	void	Core::updateDataBase()
 	{
-		for (std::list<std::map<IA1::argumentOrder, IA1::valueList>>::iterator it = this->_dataBase.begin();
+		for (std::list<std::map<IA1::argumentOrder, IA1::valueList>*>::iterator it = this->_dataBase.begin();
 			it != this->_dataBase.end();
 			)
 		{
@@ -92,20 +104,31 @@ namespace IA1
 	}
 	void	Core::fillStatistics()
 	{
-		for (std::list<std::map<IA1::argumentOrder, IA1::valueList>>::iterator it = this->_dataBase.begin();
+		for (std::list<std::map<IA1::argumentOrder, IA1::valueList>*>::iterator it = this->_dataBase.begin();
 			it != this->_dataBase.end();
 			it++)
 		{
 			if (this->checkLineValidity(*it) == true)
-				this->updateProba(*it);
+				this->updateProba(*(*it));
 		}
 	}
-	bool	Core::isTerminalNode(Parameter& parameter, IA1::valueList value)
+	bool	Core::isTerminalNode(IA1::Parameter& parameter, IA1::valueList value, IA1::Answer& res)
 	{
-		std::cout << "Reccord : Yes:" << (parameter.editValueList()[value].getProba(IA1::yes))*100 << " No:" << (parameter.editValueList()[value].getProba(IA1::no))*100 << std::endl;
-		if (parameter.editValueList()[value].getProba(IA1::no) >= this->_probaRequiered || parameter.editValueList()[value].getProba(IA1::yes) >= this->_probaRequiered)
+		double	probaYes = parameter.editValueList()[value].getProba(IA1::yes),
+				probaNo = parameter.editValueList()[value].getProba(IA1::no);
+		if (probaNo == 0 && probaYes == 0)
+		{
+			res.increaseLoop(-1);
 			return true;
-		else if (parameter.editValueList()[value].getProba(IA1::no) == 0.5)
+		}
+		if (probaNo > probaYes)
+			res.addResult(IA1::notControlled, probaNo);
+		else if (probaNo < probaYes)
+			res.addResult(IA1::controlled, probaYes);
+		else if (probaNo == probaYes)
+			res.addResult(IA1::fiftyfifty, probaYes);
+
+		if (probaNo >= this->_probaRequiered || probaYes >= this->_probaRequiered)
 			return true;
 		return false;
 	}
@@ -144,17 +167,24 @@ namespace IA1
 			}
 		}
 	}
-	bool	Core::runCore(const std::map<IA1::argumentOrder, IA1::valueList>& questionLine)
+	void	Core::resetParameters()
 	{
-		int nbTurn = 1;
-		this->fillDataBase();
-		this->updateDataBase();
-		this->fillStatistics();
-		Parameter *best = &this->getBestNode();
-		best->setActivation(false);
-		this->_selectedNodes.insert(std::pair<IA1::argumentOrder, IA1::valueList>(best->getArgument(), (*(questionLine.find(best->getArgument()))).second));
-		std::cout << "BEST : " << this->_ParameterList[best->getArgument()].getGain() << ", " << best->getArgument() << std::endl;
-		while (this->isTerminalNode(*best, (*(questionLine.find(best->getArgument()))).second) != true && this->_dataBase.size() > 0)
+		for (std::map<IA1::argumentOrder, Parameter>::iterator it = this->_ParameterList.begin();
+			it != this->_ParameterList.end();
+			it++)
+		{
+			(*it).second.setActivation(true);
+		}
+	}
+	const IA1::Answer&	Core::runCore(const std::map<IA1::argumentOrder, IA1::valueList>& questionLine)
+	{
+		IA1::Parameter *best = NULL;
+		IA1::Answer *res = new IA1::Answer();
+		this->resetDataBase();
+		this->resetParameters();
+		this->_selectedNodes.clear();
+
+		while (best == NULL || (this->_dataBase.size() > 0 && this->isTerminalNode(*best, (*(questionLine.find(best->getArgument()))).second, *res) != true))
 		{
 			this->cleanStatistics();
 			this->updateDataBase();
@@ -162,12 +192,9 @@ namespace IA1
 			best = &this->getBestNode();
 			best->setActivation(false);
 			this->_selectedNodes.insert(std::pair<IA1::argumentOrder, IA1::valueList>(best->getArgument(), (*(questionLine.find(best->getArgument()))).second));
-			std::cout << "BEST : " << this->_ParameterList[best->getArgument()].getGain() << ", " << best->getArgument() << std::endl;
-			++nbTurn;
+			res->increaseLoop();
+			res->addChoise(best->getArgument());
 		}
-		std::cout << "nb Turn : " << nbTurn << std::endl;
-		if (best->editValueList()[(*(questionLine.find(best->getArgument()))).second].getProba(IA1::no) >= this->_probaRequiered)
-			return false;
-		return true;
+		return *res;
 	}
 };	

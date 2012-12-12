@@ -54,10 +54,10 @@ namespace IA1
 			this->_valueList.insert(std::pair<IA1::valueList, Value>(IA1::yes, Value(IA1::weekEnd, IA1::yes)));
 			this->_valueList.insert(std::pair<IA1::valueList, Value>(IA1::no, Value(IA1::weekEnd, IA1::no)));
 		}
-		else if (argument == IA1::hollidays)
+		else if (argument == IA1::holidays)
 		{
-			this->_valueList.insert(std::pair<IA1::valueList, Value>(IA1::yes, Value(IA1::hollidays, IA1::yes)));
-			this->_valueList.insert(std::pair<IA1::valueList, Value>(IA1::no, Value(IA1::hollidays, IA1::no)));
+			this->_valueList.insert(std::pair<IA1::valueList, Value>(IA1::yes, Value(IA1::holidays, IA1::yes)));
+			this->_valueList.insert(std::pair<IA1::valueList, Value>(IA1::no, Value(IA1::holidays, IA1::no)));
 		}
 		else if (argument == IA1::race)
 		{
