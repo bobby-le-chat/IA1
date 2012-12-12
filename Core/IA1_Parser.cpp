@@ -9,13 +9,13 @@
 
 namespace IA1
 {
-
 	Parser::Parser(const std::string& path)
 		: _path(path)
 	{
 		this->_fd = new std::filebuf();
 		this->_fd->open (this->_path, std::ios::in);
 		this->_current = new std::istream(this->_fd);
+
 		this->_reference["yes"] = IA1::yes;
 		this->_reference["no"] = IA1::no;
 		this->_reference["twoControllers"] = IA1::twoControllers;
@@ -49,6 +49,7 @@ namespace IA1
 		this->_reference["someDelay"] = IA1::someDelay;
 		this->_reference["lotOfDelay"] = IA1::lotOfDelay;
 	}
+
 	Parser::~Parser()
 	{
 		this->_fd->close();
@@ -69,6 +70,8 @@ namespace IA1
 			line.erase(0,position + 1);
 			i++;
 		}
+		if (i == IA1::control)
+			finalLine->insert(std::pair<IA1::argumentOrder, IA1::valueList>((IA1::argumentOrder)i, this->convertToEnum(line.substr(0, line.length()))));
 		return finalLine;
 	}
 	std::map<IA1::argumentOrder, IA1::valueList> *Parser::getLine()

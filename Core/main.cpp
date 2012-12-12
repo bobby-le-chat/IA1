@@ -7,33 +7,30 @@
 
 int main(int ac, char** av)
 {
-	IA1::Core *core = new IA1::Core("C:/Users/Admin/Desktop/projets/Visual/IA1/resultExempleGenerateCsv.csv");
-	
-	core->runCore("");
-	/*
-	IA1::Core core;
-	std::map<IA1::argumentOrder, IA1::valueList> *map;
-	while ((map = parser->getLine()) != NULL)
+
+
+	// init
+	IA1::Parser *arg = new IA1::Parser("C:/Users/Admin/Downloads/resultExempleGenerateCsv.csv");
+	std::string line = "";
+	std::map<IA1::argumentOrder,IA1::valueList> *maListe;
+/*
+	// Si on veut tester plein de compos en ligne
+	while ((maListe = arg->getLine()) != NULL)
 	{
-		core.calculateProba(*map);
-		delete map;
+		IA1::Core *core = new IA1::Core("C:/Users/Admin/Downloads/resultExempleGenerateCsv.csv", 1);
+		std:: cout << "RES = " << (core->runCore(*maListe) ? "YES"  : "NO") << std::endl;
+		delete maListe, core;
 	}
-	delete parser;
-	for (std::map<IA1::argumentOrder, IA1::Parameter>::iterator it = core.editParameterList().begin();
-			it != core.getParameterList().end();
-			it++
-			)
-	{
-		std::cout << std::setprecision(3) << (*it).second.getArgument() << "(" << core.getStatistics().getYes() << ',' << core.getStatistics().getNo() << ':' << core.editStatistics().getGain((*it).second) << ')' << ':' ;
-		for (std::map<IA1::valueList, IA1::Value>::iterator it2 = (*it).second.editValueList().begin();
-			it2 != (*it).second.editValueList().end();
-			it2++)
-		{
-			std::cout << " [" << (*it2).second.getparent() << ',' << (*it2).second.getValue() << "](" << (*it2).second.getYes() << ',' << (*it2).second.getNo()
-				<< ':' 
-				<< (*it2).second.getEntropy() << ')' ;
-		}
-		std::cout << std::endl;
-	}*/
+	*/
+	// si on veut test qu'une seule ligne.
+	// Note : Si tu utilises cette métode, tu peux instancier le Parser sans parametre dans le constructeur.
+	IA1::Core *core = new IA1::Core("C:/Users/Admin/Downloads/resultExempleGenerateCsv.csv", 1);
+	line = "fourControllers;middleTrain;firstClass;middleOccupation;yes;prepostRush;no;yes;european;female;senior;someDelay";
+	maListe = arg->parseLine(line);
+	std:: cout << "RES = " << (core->runCore(*maListe) ? "YES"  : "NO") << std::endl;
+
+	delete arg, maListe, core;
+
+
 	while (1) {}
 }

@@ -6,11 +6,11 @@
 namespace IA1
 {
 	Parameter::Parameter()
-		: _argument(IA1::nullArgumentOrder)
+		: _argument(IA1::nullArgumentOrder), _activation(true)
 	{
 	}
 	Parameter::Parameter(IA1::argumentOrder argument)
-		: _argument(argument)
+		: _argument(argument), _activation(true)
 	{
 		if (argument == IA1::nbControler)
 		{
@@ -111,5 +111,21 @@ namespace IA1
 	IA1::argumentOrder	Parameter::getArgument() const
 	{
 		return this->_argument;
+	}
+	void	Parameter::setActivation(bool activation)
+	{
+		this->_activation = activation;
+	}
+	bool	Parameter::getActivation() const
+	{
+		return this->_activation;
+	}
+	void	Parameter::setGain(double gain)
+	{
+		this->_gain = gain;
+	}
+	double	Parameter::getGain() const
+	{
+		return this->_gain;
 	}
 }

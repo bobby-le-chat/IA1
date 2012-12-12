@@ -16,11 +16,12 @@ namespace IA1
 		std::map<const std::string, IA1::valueList> _reference;
 		std::istream*	_current;
 		std::filebuf*	_fd;
+	protected:
+		IA1::valueList convertToEnum(const std::string& parameter);
 
 	public:
-		Parser(const std::string& path);
+		Parser(const std::string& path = "");
 		~Parser();
-		IA1::valueList convertToEnum(const std::string& parameter);
 		std::map<IA1::argumentOrder, IA1::valueList> *parseLine(std::string& line);
 		std::map<IA1::argumentOrder, IA1::valueList> *getLine();
 	};

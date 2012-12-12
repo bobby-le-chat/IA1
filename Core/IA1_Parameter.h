@@ -13,13 +13,19 @@ namespace IA1
 	private:
 		 std::map<IA1::valueList, Value> _valueList;
 		 const IA1::argumentOrder _argument;
+		 bool	_activation;
+		 double	_gain;
 	protected:
 	public:
 		 Parameter();
 		 Parameter(IA1::argumentOrder argument);
 		 std::map<IA1::valueList, Value>& editValueList();
 		 const std::map<IA1::valueList, Value>& getValueList() const;
-		IA1::argumentOrder	getArgument() const;
+		 IA1::argumentOrder	getArgument() const;
+		 void	setActivation(bool activation);
+		 bool	getActivation() const;
+		 void	setGain(double gain);
+		 double	getGain() const;
 
 	};
 

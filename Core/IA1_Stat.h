@@ -28,6 +28,7 @@ namespace IA1
 		 void addNo();
 		 void setNo(int no);
 		 int getNo() const;
+		 void	clean();
 		 double getProba(IA1::valueList order = IA1::yes);
 		 double getEntropy();
 		 double getGain(Parameter& parameter);

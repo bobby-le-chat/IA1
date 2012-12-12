@@ -32,7 +32,16 @@ namespace IA1
 	{ this->changed(); this->_no += 1; }
 	void Stat::setNo(int no)
 	{ this->changed(); this->_no = no; }
-	
+	void	Stat::clean()
+	{
+		this->_no = 0;
+		this->_yes = 0;
+		this->_changedEntropy = true;
+		this->_changedProba = true;
+		this->_probaYes = 0;
+		this->_probaNo = 0;
+		this->_gain = 0;
+	}
 	double Stat::getProba(IA1::valueList order)
 	{
 		if (this->_changedProba == false)
@@ -73,7 +82,7 @@ namespace IA1
 			sumValueEntropy += proba * (*it).second.getEntropy();
 		}
 		this->_gain = this->getEntropy() - sumValueEntropy;
-		this->_gain *= 100;
+		parameter.setGain(this->_gain);
 		return this->_gain;
 	}
 }

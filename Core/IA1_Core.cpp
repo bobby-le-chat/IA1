@@ -11,8 +11,8 @@
 
 namespace IA1
 {
-	Core::Core(const std::string& refPath)
-		: _refPath(refPath)
+	Core::Core(const std::string& refPath, double probaRequiered)
+		: _refPath(refPath), _probaRequiered(probaRequiered)
 	{
 		for (int i = IA1::nbControler; i <= IA1::control; i++)
 		{
@@ -100,43 +100,74 @@ namespace IA1
 				this->updateProba(*it);
 		}
 	}
-	bool	Core::runCore(const std::string& questionLine)
+	bool	Core::isTerminalNode(Parameter& parameter, IA1::valueList value)
 	{
-		this->_selectedNodes.insert(std::pair<IA1::argumentOrder, IA1::valueList>(IA1::cops, IA1::yes));
-		this->fillDataBase();
-		this->updateDataBase();
-		this->fillStatistics();
-		/*while (this->isTerminalNode() != true)
+		std::cout << "Reccord : Yes:" << (parameter.editValueList()[value].getProba(IA1::yes))*100 << " No:" << (parameter.editValueList()[value].getProba(IA1::no))*100 << std::endl;
+		if (parameter.editValueList()[value].getProba(IA1::no) >= this->_probaRequiered || parameter.editValueList()[value].getProba(IA1::yes) >= this->_probaRequiered)
+			return true;
+		else if (parameter.editValueList()[value].getProba(IA1::no) == 0.5)
+			return true;
+		return false;
+	}
+	Parameter&	Core::getBestNode()
+	{
+		IA1::argumentOrder parameterIdentifer = IA1::nullArgumentOrder;
+		double best = 0;
+		double	temp = 0;
+		for (std::map<IA1::argumentOrder, IA1::Parameter>::iterator it = this->editParameterList().begin();
+			it != --this->getParameterList().end();
+			it++)
 		{
+			if ((*it).second.getActivation() == true && (temp = this->_statistics.getGain((*it).second)) > best)
+			{	
 
-		}*/
-
-		/*
-		while res != false
-			set leaf
-			apply filter
-			clean the table
-			clean the objetcs
-			look at stats
-		*/
-
-			for (std::map<IA1::argumentOrder, IA1::Parameter>::iterator it = this->editParameterList().begin();
+				best = temp;
+				this->_ParameterList[(*it).first].setGain(temp);
+				parameterIdentifer = (*it).first;
+			}
+		}
+		return this->_ParameterList[parameterIdentifer];
+	}
+	void	Core::cleanStatistics()
+	{
+		this->_statistics.clean();
+		for (std::map<IA1::argumentOrder, IA1::Parameter>::iterator it = this->editParameterList().begin();
 			it != --this->getParameterList().end();
 			it++
 			)
 		{
-		std::cout << std::setprecision(3) << (*it).second.getArgument() << "(" << this->getStatistics().getYes() << ',' << this->getStatistics().getNo() << ':' << this->editStatistics().getGain((*it).second) << ')' << ':' ;
-		for (std::map<IA1::valueList, IA1::Value>::iterator it2 = (*it).second.editValueList().begin();
+			for (std::map<IA1::valueList, IA1::Value>::iterator it2 = (*it).second.editValueList().begin();
 			it2 != (*it).second.editValueList().end();
 			it2++)
+			{
+				(*it2).second.clean();
+			}
+		}
+	}
+	bool	Core::runCore(const std::map<IA1::argumentOrder, IA1::valueList>& questionLine)
+	{
+		int nbTurn = 1;
+		this->fillDataBase();
+		this->updateDataBase();
+		this->fillStatistics();
+		Parameter *best = &this->getBestNode();
+		best->setActivation(false);
+		this->_selectedNodes.insert(std::pair<IA1::argumentOrder, IA1::valueList>(best->getArgument(), (*(questionLine.find(best->getArgument()))).second));
+		std::cout << "BEST : " << this->_ParameterList[best->getArgument()].getGain() << ", " << best->getArgument() << std::endl;
+		while (this->isTerminalNode(*best, (*(questionLine.find(best->getArgument()))).second) != true && this->_dataBase.size() > 0)
 		{
-			std::cout << " [" << (*it2).second.getparent() << ',' << (*it2).second.getValue() << "](" << (*it2).second.getYes() << ',' << (*it2).second.getNo()
-				<< ':' 
-				<< (*it2).second.getEntropy() << ')' ;
+			this->cleanStatistics();
+			this->updateDataBase();
+			this->fillStatistics();
+			best = &this->getBestNode();
+			best->setActivation(false);
+			this->_selectedNodes.insert(std::pair<IA1::argumentOrder, IA1::valueList>(best->getArgument(), (*(questionLine.find(best->getArgument()))).second));
+			std::cout << "BEST : " << this->_ParameterList[best->getArgument()].getGain() << ", " << best->getArgument() << std::endl;
+			++nbTurn;
 		}
-		std::cout << std::endl;
-
-		}
-			return true;
+		std::cout << "nb Turn : " << nbTurn << std::endl;
+		if (best->editValueList()[(*(questionLine.find(best->getArgument()))).second].getProba(IA1::no) >= this->_probaRequiered)
+			return false;
+		return true;
 	}
 };	

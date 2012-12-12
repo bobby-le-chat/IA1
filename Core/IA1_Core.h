@@ -19,6 +19,7 @@ namespace IA1
 		 std::string	_refPath;
 		 std::list<std::map<IA1::argumentOrder, IA1::valueList>> _dataBase;
 		 std::map<IA1::argumentOrder, IA1::valueList> _selectedNodes;
+		 double	_probaRequiered;
 	 protected:
 		 const Stat& getStatistics() const;
 		 Stat& editStatistics();
@@ -26,14 +27,18 @@ namespace IA1
 		 std::map<IA1::argumentOrder, Parameter>& editParameterList();
 		 double calculateGain(const Parameter& arg);
 		 void updateProba(std::map<IA1::argumentOrder, IA1::valueList>& currentLine);
+		 void cleanStatistics();
 		 void fillStatistics();
+
+		 bool isTerminalNode(Parameter& parameter, IA1::valueList value);
+		 Parameter&	getBestNode();
 		 
 		 void fillDataBase();
 		 bool checkLineValidity(std::map<IA1::argumentOrder, IA1::valueList> line);
 		 void updateDataBase();
 	public:
-		 Core(const std::string& refPath);
-		 bool runCore(const std::string& questionLine);
+		 Core(const std::string& refPath, double probaRequiered = 0.8);
+		 bool runCore(const std::map<IA1::argumentOrder, IA1::valueList>& questionLine);
 	};
 
 }
