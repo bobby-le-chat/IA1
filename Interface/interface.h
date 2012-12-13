@@ -12,7 +12,7 @@ public:
 	Interface(QWidget *parent = 0, Qt::WFlags flags = 0);
 	~Interface();
 
- public slots:
+public slots:
 	void buttonCheckClicked();
 	void buttonAcceptClicked();
 	void buttonRefuseClicked();
