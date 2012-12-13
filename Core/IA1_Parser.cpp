@@ -1,6 +1,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 #include <iostream>
 #include <fstream>
 
@@ -60,7 +61,7 @@ namespace IA1
 	{
 		return this->_reference[parameter];
 	}
-	std::map<IA1::argumentOrder, IA1::valueList> *Parser::parseLine(std::string& line)
+	std::map<IA1::argumentOrder, IA1::valueList> *Parser::parseLine(std::string line)
 	{
 		std::map<IA1::argumentOrder, IA1::valueList> *finalLine = new std::map<IA1::argumentOrder, IA1::valueList>();
 		int i = IA1::nbControler;
@@ -80,5 +81,44 @@ namespace IA1
 		if (std::getline(*(this->_current), line))
 			return this->parseLine(line);
 		return NULL;
+	}
+
+
+	std::vector<std::string>* Parser::unParseLine(const std::map<IA1::argumentOrder, IA1::valueList>& ref, const std::string& res)
+	{
+		std::vector<std::string> *finalLine = new std::vector<std::string>();
+		for (std::map<IA1::argumentOrder, IA1::valueList>::const_iterator it = ref.begin();
+			it != ref.end();
+			it++)
+		{
+			if ((*it).first >= IA1::nbControler && (*it).first <= IA1::delay)
+			{
+				for (std::map<const std::string, IA1::valueList>::const_iterator it2 = this->_reference.begin();
+					it2 != this->_reference.end(); it2++)
+				{
+					if ((*it2).second == (*it).second)
+					{
+						finalLine->push_back((*it2).first);
+						break;
+					}
+				}
+			}
+		}
+		finalLine->push_back(res);
+		return finalLine;
+	}
+	std::vector<std::string>* Parser::parseLineToVector(std::string line)
+	{
+		std::vector<std::string> *finalLine = new std::vector<std::string>();
+		int i = IA1::nbControler;
+		for (size_t position = line.find(";"); position != std::string::npos || i <= IA1::delay; position = line.find(";"))
+		{
+			finalLine->push_back(line.substr(0, position));
+			line.erase(0,position + 1);
+			i++;
+		}
+		if (i == IA1::control)
+			finalLine->push_back(line.substr(0, line.length()));
+		return finalLine;
 	}
 }

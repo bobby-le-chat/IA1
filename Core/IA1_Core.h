@@ -7,6 +7,7 @@
 #include "IA1_enum.h"
 #include "IA1_Parameter.h"
 #include "IA1_Stat.h"
+#include "IA1_Answer.h"
 
 namespace IA1
 {
@@ -17,7 +18,8 @@ namespace IA1
 		 Stat _statistics;
 		 std::map<IA1::argumentOrder, Parameter>  _ParameterList;
 		 std::string	_refPath;
-		 std::list<std::map<IA1::argumentOrder, IA1::valueList>> _dataBase;
+		 std::list<std::map<IA1::argumentOrder, IA1::valueList>*> _dataBase;
+		 std::list<std::map<IA1::argumentOrder, IA1::valueList>> _fullDataBase;
 		 std::map<IA1::argumentOrder, IA1::valueList> _selectedNodes;
 		 double	_probaRequiered;
 	 protected:
@@ -29,16 +31,18 @@ namespace IA1
 		 void updateProba(std::map<IA1::argumentOrder, IA1::valueList>& currentLine);
 		 void cleanStatistics();
 		 void fillStatistics();
+		 void resetParameters();
 
-		 bool isTerminalNode(Parameter& parameter, IA1::valueList value);
+		 bool isTerminalNode(Parameter& parameter, IA1::valueList value, IA1::Answer& res);
 		 Parameter&	getBestNode();
 		 
 		 void fillDataBase();
-		 bool checkLineValidity(std::map<IA1::argumentOrder, IA1::valueList> line);
+		 void resetDataBase();
+		 bool checkLineValidity(std::map<IA1::argumentOrder, IA1::valueList> *line);
 		 void updateDataBase();
 	public:
 		 Core(const std::string& refPath, double probaRequiered = 0.8);
-		 bool runCore(const std::map<IA1::argumentOrder, IA1::valueList>& questionLine);
+		 const IA1::Answer& runCore(const std::map<IA1::argumentOrder, IA1::valueList>& questionLine);
 	};
 
 }

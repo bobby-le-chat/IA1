@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 #include "IA1_enum.h"
 #include "IA1_Parameter.h"
@@ -22,8 +23,12 @@ namespace IA1
 	public:
 		Parser(const std::string& path = "");
 		~Parser();
-		std::map<IA1::argumentOrder, IA1::valueList> *parseLine(std::string& line);
+		std::map<IA1::argumentOrder, IA1::valueList> *parseLine(std::string refLine);
 		std::map<IA1::argumentOrder, IA1::valueList> *getLine();
+
+		std::vector<std::string>* unParseLine(const std::map<IA1::argumentOrder, IA1::valueList>& ref, const std::string& res);
+		std::vector<std::string>* parseLineToVector(std::string res);
+
 	};
 }
 
