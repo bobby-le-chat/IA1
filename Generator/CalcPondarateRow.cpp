@@ -16,6 +16,7 @@ CalcPondarateRow::CalcPondarateRow(const std::vector<Category>& categories, floa
 CalcPondarateRow::~CalcPondarateRow() {
 
 }
+
 float CalcPondarateRow::calculate(const Row& row) const
 {
 	float total = 0;
@@ -34,7 +35,7 @@ bool	CalcPondarateRow::operator()(const Row& row, const Row& row2) const
 bool CalcPondarateRow::operator()(const Row& row)
 {
 	this->_total = this->calculate(row);
-	return this->_total > this->_refValue;
+	return this->_total < this->_refValue;
 }
 
 float	CalcPondarateRow::getTotal() const

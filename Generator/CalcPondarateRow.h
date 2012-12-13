@@ -19,7 +19,7 @@ class CalcPondarateRow {
 
 	float calculate(const Row& row) const;
 public:
-	CalcPondarateRow(const std::vector<Category>& categories, float refValue = 0);
+	CalcPondarateRow(const std::vector<Category>& categories, float refValue = 0.9);
 	bool	operator()(const Row& row);
 	bool	operator()(const Row& row, const Row& row) const;
 	bool	isValidate();

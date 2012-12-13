@@ -6,7 +6,7 @@
 #include "CalcPondarateRow.h"
 
 CsvGenerator::CsvGenerator() :
-		_categories(), _rows() {
+		_categories(), _rows(), _controleValue(0.9) {
 
 }
 
@@ -15,7 +15,7 @@ void CsvGenerator::exportToFile(const std::string& filepath,
 	std::ofstream outputFile;
 	std::ofstream debugFile;
 
-	CalcPondarateRow pondarateAlgo(this->normalizeCategories(), 0.5);
+	CalcPondarateRow pondarateAlgo(this->normalizeCategories(), this->_controleValue);
 
 	outputFile.open(filepath.c_str());
 	debugFile.open("debug.csv");
@@ -54,7 +54,7 @@ void CsvGenerator::exportToFile(const std::string& filepath,
 		}
 
 		pondarateAlgo.operator ()(*begin_row);
-		if (pondarateAlgo.getTotal() > 0.09)
+		if (pondarateAlgo.getTotal() > this->_controleValue)
 			outputFile << "yes" << ";";
 		else
 			outputFile << "no" << ";";
@@ -82,6 +82,7 @@ CsvGenerator CsvGenerator::defaultCsv() {
 	csv.addCategory(CategoryFactory::gender());
 	csv.addCategory(CategoryFactory::age());
 	csv.addCategory(CategoryFactory::delay());
+	csv.setControleValue(0.9);
 	return csv;
 
 }
@@ -114,11 +115,9 @@ const std::vector<Category> CsvGenerator::normalizeCategories() {
 		total += begin->getWeight();
 		++begin;
 	}
-	std::cout << "Total : " << total << std::endl;
 	begin = normalized_categories.begin();
 	while (begin != end) {
 		float weight_normalized = begin->getWeight() / total;
-		std::cout << weight_normalized << std::endl;
 		begin->setWeight(weight_normalized);
 		++begin;
 	}
@@ -166,11 +165,16 @@ bool  CsvGenerator::isControlate(const std::vector<std::string>& values) {
 		i++;
 	}
 	newRow = newRow.normalize();
-	CalcPondarateRow pondarateAlgo(categories, 0.5);
-	return pondarateAlgo(newRow);
-
+	CalcPondarateRow pondarateAlgo(categories, this->_controleValue);
+	bool check = pondarateAlgo(newRow);
+ 	return check;
 }
 
 void CsvGenerator::addCategory(const Category& category) {
 	this->_categories.push_back(category);
+}
+
+void	CsvGenerator::setControleValue(float value)
+{
+	this->_controleValue = value;
 }

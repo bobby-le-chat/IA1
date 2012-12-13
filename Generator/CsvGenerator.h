@@ -9,8 +9,7 @@ class CsvGenerator
 {
   std::vector<Category>	_categories;
   std::vector<Row>		_rows;
-  
-
+  float					_controleValue;
 
 private :
 
@@ -21,6 +20,7 @@ private :
 public:
   CsvGenerator();
   void				addCategory(const Category&);
+  void				setControleValue(float value);
   const std::vector<Row>&	generate(int nbRowGenerate);
   void				exportToFile(const std::string& filepath, bool withCategory = true);
   void				generateAndExport(const std::string& filepath, int nbRowGenerate, bool withCategory = true);

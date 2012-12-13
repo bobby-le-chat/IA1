@@ -3,7 +3,7 @@
 
 Category CategoryFactory::age()
 {
-  Category category("age", 6.13, false);
+  Category category("age", 2.13, false);
   category.addValues("junior", 5);
   category.addValues("teenager", 17);
   category.addValues("adult", 15);
@@ -13,7 +13,7 @@ Category CategoryFactory::age()
 
 Category CategoryFactory::cops()
 {
-   Category category("cops", 12.33);
+   Category category("cops", 14.33);
    category.addValues("yes", 20);
    category.addValues("no", 0);
    return category;
@@ -47,7 +47,7 @@ Category CategoryFactory::hollidays()
 
 Category CategoryFactory::nbControler()
 {
-  Category category("nbControler", 17.33);
+  Category category("nbControler", 18.33);
   category.addValues("twoControllers", 3);
   category.addValues("fourControllers", 10);
   category.addValues("sixControllers", 15);
