@@ -22,11 +22,12 @@ public:
   
   void				setParams(const std::string& value, float poid,
 					  const std::pair<int, int>& abs);
+  void				setWeight(float weight);
   
   void				setAbs(int x, int y);
   const std::pair<int, int>& 	getAbs() const;
   const std::string&		getValue() const;
-  float 			getPoid() const;
+  float 			getWeight() const;
 };
 
 #endif // NODE_H

@@ -16,12 +16,15 @@ virtual Row& 	operator=(const Row& other);
 virtual bool 	operator==(const Row& other) const;
 
 const std::vector<Node>& 	getNodes() const;
+const Node& getNode(int x) const;
 void		addNode(const Node& node);
 void		addNode(const Node& node, int x);
 
 void		deleteNode(const Node& node);
 void		deleteNode(int x);
 
+Row		normalize();
+float	getTotalNodeWeight() const;
 int		getLineNumber() const;
 
 };

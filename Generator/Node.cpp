@@ -45,9 +45,14 @@ const std::pair< int, int >& Node::getAbs() const
   return this->_abs;
 }
 
-float Node::getPoid() const
+float Node::getWeight() const
 {
   return this->_poid;
+}
+
+void Node::setWeight(float weight)
+{
+	this->_poid = weight;
 }
 
 const std::string& Node::getValue() const
