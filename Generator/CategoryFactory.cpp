@@ -3,7 +3,7 @@
 
 Category CategoryFactory::age()
 {
-  Category category("age", 2.13, false);
+  Category category("age", 1.13, false);
   category.addValues("junior", 5);
   category.addValues("teenager", 17);
   category.addValues("adult", 15);
@@ -13,7 +13,7 @@ Category CategoryFactory::age()
 
 Category CategoryFactory::cops()
 {
-   Category category("cops", 14.33);
+   Category category("cops", 18.33);
    category.addValues("yes", 20);
    category.addValues("no", 0);
    return category;
@@ -21,8 +21,7 @@ Category CategoryFactory::cops()
  
 Category CategoryFactory::delay()
 {
-  Category category("delay", 10.3);
-  // category.addValues("noDelay", 20);
+  Category category("delay", 8.3);
   category.addValues("fewDelay", 15);
   category.addValues("someDelay", 10);
   category.addValues("lotOfDelay", 4);
@@ -47,7 +46,7 @@ Category CategoryFactory::hollidays()
 
 Category CategoryFactory::nbControler()
 {
-  Category category("nbControler", 18.33);
+  Category category("nbControler", 20.33);
   category.addValues("twoControllers", 3);
   category.addValues("fourControllers", 10);
   category.addValues("sixControllers", 15);
@@ -67,7 +66,7 @@ Category CategoryFactory::race()
 
 Category CategoryFactory::timeOfDay()
 {
-  Category category("timeOfDay", 6.33);
+  Category category("timeOfDay", 2.33);
   category.addValues("slump", 10);
   category.addValues("prepostRush", 12);
   category.addValues("rush", 5);
@@ -87,7 +86,7 @@ Category CategoryFactory::trainLength()
  
 Category CategoryFactory::weekEnd()
 {
-  Category category("weekEnd",4.33);
+  Category category("weekEnd",2.33);
   category.addValues("yes", 15);
   category.addValues("no", 4);
   return category;
@@ -95,7 +94,7 @@ Category CategoryFactory::weekEnd()
 
 Category CategoryFactory::trainClass()
 {
-  Category	category("trainClass", 2.33, false);
+  Category	category("trainClass", 1.33, false);
   category.addValues("firstClass", 15);
   category.addValues("secondClass", 10);
   return category;
@@ -103,7 +102,7 @@ Category CategoryFactory::trainClass()
 
 Category CategoryFactory::trainPop()
 {
-  Category category("trainPop", 13.33);
+  Category category("trainPop", 16.33);
   category.addValues("desertOccupation", 17);
   category.addValues("lowOccupation", 14);
   category.addValues("middleOccupation", 10);

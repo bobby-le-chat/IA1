@@ -6,7 +6,8 @@ int main(int argc, char **argv) {
   
   
     CsvGenerator	csv = CsvGenerator::defaultCsv();
-    csv.generateAndExport("resultCsv.csv", 10);
+    csv.generateAndExport("resultCsv.csv", 1000);
+
     std::cout << "Test de la ligne : eightControllers	longTrain	firstClass	lowOccupation	yes	rush	no	yes	asian	female	teenager	fewDelay" << std::endl;
     std::vector<std::string> row_manual;
     row_manual.push_back("eightControllers");

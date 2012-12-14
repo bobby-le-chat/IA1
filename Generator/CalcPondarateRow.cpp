@@ -4,7 +4,7 @@
  *  Created on: 12 déc. 2012
  *      Author: thibremy
  */
-
+#include <iostream>
 #include "CalcPondarateRow.h"
 
 CalcPondarateRow::CalcPondarateRow(const std::vector<Category>& categories, float refValue)
@@ -35,7 +35,7 @@ bool	CalcPondarateRow::operator()(const Row& row, const Row& row2) const
 bool CalcPondarateRow::operator()(const Row& row)
 {
 	this->_total = this->calculate(row);
-	return this->_total < this->_refValue;
+	return this->_total > this->_refValue;
 }
 
 float	CalcPondarateRow::getTotal() const

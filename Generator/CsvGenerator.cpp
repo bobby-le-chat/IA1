@@ -15,15 +15,15 @@ void CsvGenerator::exportToFile(const std::string& filepath,
 	std::ofstream outputFile;
 	std::ofstream debugFile;
 
-	CalcPondarateRow pondarateAlgo(this->normalizeCategories(), this->_controleValue);
 
 	outputFile.open(filepath.c_str());
 	debugFile.open("debug.csv");
 	if (!outputFile.is_open())
 		return;
 
+	std::vector<Category> normalized_categories = this->normalizeCategories();
+	CalcPondarateRow pondarateAlgo(normalized_categories, this->_controleValue);
 	if (withCategory) {
-		std::vector<Category> normalized_categories = this->normalizeCategories();
 		std::vector<Category>::const_iterator begin_category = normalized_categories.begin();
 		std::vector<Category>::const_iterator end_category = normalized_categories.end();
 
@@ -51,13 +51,13 @@ void CsvGenerator::exportToFile(const std::string& filepath,
 					<< begin_node->getWeight() << ");";
 			++begin_node;
 		}
-
 		pondarateAlgo.operator ()(*begin_row);
-		if (pondarateAlgo.getTotal() > this->_controleValue)
+		float getTotal = pondarateAlgo.getTotal();
+		if (getTotal > this->_controleValue)
 			outputFile << "yes" << ";";
 		else
 			outputFile << "no" << ";";
-		debugFile << pondarateAlgo.getTotal() << ";";
+		debugFile <<  getTotal << ";";
 		outputFile << std::endl;
 		debugFile << std::endl;
 		++begin_row;
@@ -81,7 +81,7 @@ CsvGenerator CsvGenerator::defaultCsv() {
 	csv.addCategory(CategoryFactory::gender());
 	csv.addCategory(CategoryFactory::age());
 	csv.addCategory(CategoryFactory::delay());
-	csv.setControleValue(0.9);
+	csv.setControleValue(0.09);
 	return csv;
 
 }
