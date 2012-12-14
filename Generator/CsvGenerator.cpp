@@ -23,13 +23,12 @@ void CsvGenerator::exportToFile(const std::string& filepath,
 		return;
 
 	if (withCategory) {
-		std::vector<Category>::const_iterator begin_category =
-				this->normalizeCategories().begin();
-		std::vector<Category>::const_iterator end_category =
-				this->normalizeCategories().end();
+		std::vector<Category> normalized_categories = this->normalizeCategories();
+		std::vector<Category>::const_iterator begin_category = normalized_categories.begin();
+		std::vector<Category>::const_iterator end_category = normalized_categories.end();
 
 		while (begin_category != end_category) {
-			outputFile << begin_category->getName() << ";";
+			outputFile << (*begin_category).getName() << ";";
 			debugFile << begin_category->getName() << "("
 					<< begin_category->getWeight() << ")" << ";";
 			++begin_category;

@@ -1,4 +1,6 @@
 #include "interface.h"
+#include "interface.h"
+#include <QLabel>
 
 Interface::Interface(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)

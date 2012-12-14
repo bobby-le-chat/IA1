@@ -13,5 +13,99 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\generator">
+      <UniqueIdentifier>{19f6eb33-570e-45d9-a471-67a9bb77a8b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Core">
+      <UniqueIdentifier>{c5d13f31-b6b5-4c38-9062-5a9a29576592}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Core">
+      <UniqueIdentifier>{f2bdb7f6-7154-4f88-9a3a-c0eb23842169}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\generator">
+      <UniqueIdentifier>{d14e1a0d-7af4-456d-9125-129cd628cf2a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Core\IA1_Answer.cpp">
+      <Filter>Fichiers sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Core\IA1_Core.cpp">
+      <Filter>Fichiers sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Core\IA1_Parameter.cpp">
+      <Filter>Fichiers sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Core\IA1_Parser.cpp">
+      <Filter>Fichiers sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Core\IA1_Stat.cpp">
+      <Filter>Fichiers sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Core\IA1_Value.cpp">
+      <Filter>Fichiers sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generator\Category.cpp">
+      <Filter>Fichiers sources\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generator\CategoryFactory.cpp">
+      <Filter>Fichiers sources\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generator\CsvGenerator.cpp">
+      <Filter>Fichiers sources\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generator\Node.cpp">
+      <Filter>Fichiers sources\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generator\Row.cpp">
+      <Filter>Fichiers sources\generator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Generator\CalcPondarateRow.cpp">
+      <Filter>Fichiers sources\generator</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Core\IA1_Answer.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\IA1_Core.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\IA1_enum.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\IA1_Parameter.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\IA1_Parser.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\IA1_Stat.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\IA1_Value.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Generator\Category.h">
+      <Filter>Fichiers d%27en-tête\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Generator\CategoryFactory.h">
+      <Filter>Fichiers d%27en-tête\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Generator\CsvGenerator.h">
+      <Filter>Fichiers d%27en-tête\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Generator\Node.h">
+      <Filter>Fichiers d%27en-tête\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Generator\Row.h">
+      <Filter>Fichiers d%27en-tête\generator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Generator\CalcPondarateRow.h">
+      <Filter>Fichiers d%27en-tête\generator</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

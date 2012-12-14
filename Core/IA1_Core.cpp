@@ -135,7 +135,7 @@ namespace IA1
 	Parameter&	Core::getBestNode()
 	{
 		IA1::argumentOrder parameterIdentifer = IA1::nullArgumentOrder;
-		double best = 0;
+		double best = -1;
 		double	temp = 0;
 		for (std::map<IA1::argumentOrder, IA1::Parameter>::iterator it = this->editParameterList().begin();
 			it != --this->getParameterList().end();

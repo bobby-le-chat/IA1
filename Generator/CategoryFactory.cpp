@@ -22,10 +22,10 @@ Category CategoryFactory::cops()
 Category CategoryFactory::delay()
 {
   Category category("delay", 10.3);
-  category.addValues("noDelay", 20);
+  // category.addValues("noDelay", 20);
   category.addValues("fewDelay", 15);
   category.addValues("someDelay", 10);
-  category.addValues("aLotOfDelay", 4);
+  category.addValues("lotOfDelay", 4);
   return category;
 }
  
