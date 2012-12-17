@@ -72,8 +72,8 @@ namespace IA1
 	};
 	enum answer
 	{
+		notControlled = 0,
 		controlled,
-		notControlled,
 		fiftyfifty,
 		unknow,
 

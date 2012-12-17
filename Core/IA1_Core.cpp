@@ -184,7 +184,8 @@ namespace IA1
 		this->resetParameters();
 		this->_selectedNodes.clear();
 
-		while (best == NULL || (this->_dataBase.size() > 0 && this->isTerminalNode(*best, (*(questionLine.find(best->getArgument()))).second, *res) != true))
+		while ((this->_dataBase.size() > 0 && best == NULL)
+			|| (this->_dataBase.size() > 0 && this->isTerminalNode(*best, (*(questionLine.find(best->getArgument()))).second, *res) != true))
 		{
 			this->cleanStatistics();
 			this->updateDataBase();

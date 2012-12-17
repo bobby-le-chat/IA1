@@ -6,7 +6,7 @@
 #include "CalcPondarateRow.h"
 
 CsvGenerator::CsvGenerator() :
-		_categories(), _rows(), _controleValue(0.9) {
+		_categories(), _rows(), _controleValue(0.09) {
 
 }
 
@@ -89,7 +89,7 @@ CsvGenerator CsvGenerator::defaultCsv() {
 void CsvGenerator::generateAndExport(const std::string& filepath,
 		int nbRowGenerate, bool withCategory) {
 	this->generate(nbRowGenerate);
-	this->exportToFile(filepath);
+	this->exportToFile(filepath, withCategory);
 }
 
 float CsvGenerator::getMaxWeightCategory() const {
@@ -162,11 +162,14 @@ bool  CsvGenerator::isControlate(const std::vector<std::string>& values) {
 		Node	new_node(name, weight, i, 0);
 		newRow.addNode(new_node);
 		i++;
+		begin_categories++;
 	}
 	newRow = newRow.normalize();
 	CalcPondarateRow pondarateAlgo(categories, this->_controleValue);
-	bool check = pondarateAlgo(newRow);
- 	return check;
+	pondarateAlgo.operator()(newRow);
+	if ( pondarateAlgo.getTotal() > this->_controleValue)
+		return false;
+ 	return true;
 }
 
 void CsvGenerator::addCategory(const Category& category) {

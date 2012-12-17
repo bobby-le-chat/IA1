@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'interface.ui'
 **
-** Created: Fri 14. Dec 12:03:36 2012
+** Created: Mon 17. Dec 14:01:25 2012
 **      by: Qt User Interface Compiler version 4.8.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!

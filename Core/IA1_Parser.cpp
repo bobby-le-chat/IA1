@@ -104,7 +104,6 @@ namespace IA1
 				}
 			}
 		}
-		finalLine->push_back(res);
 		return finalLine;
 	}
 	std::vector<std::string>* Parser::parseLineToVector(std::string line)

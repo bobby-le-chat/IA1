@@ -15,7 +15,7 @@
 #include "CategoryFactory.h"
 
 
-void	generator(CsvGenerator& csv, int lenght)
+void	generator(CsvGenerator& csv, int lenght, const std::string& prefix = "")
 {    
     csv.addCategory(CategoryFactory::nbControler());
     csv.addCategory(CategoryFactory::trainLength());
@@ -29,41 +29,58 @@ void	generator(CsvGenerator& csv, int lenght)
     csv.addCategory(CategoryFactory::gender());
     csv.addCategory(CategoryFactory::age());
     csv.addCategory(CategoryFactory::delay());
-    csv.generateAndExport("resultCsv.csv", lenght, false);
+	
+	std::ostringstream logFile;
+	logFile << prefix << lenght << ".csv";
+    csv.generateAndExport(logFile.str(), lenght, false);
 }
 
 void	calculate(IA1::Parser* vv, int lenght)
 {
 	// init
-	IA1::Parser *arg = new IA1::Parser("testEchantillon.csv");
+	
+	std::ostringstream logFile;
+	
 	CsvGenerator csv;
-	generator(csv, lenght);
+	generator(csv, lenght, "Ex/resultCsv");
+	CsvGenerator csv2;
+	generator(csv2, lenght, "Ref/resultCsv");
+	
+	
+	logFile << "Ex/resultCsv" << lenght << ".csv";
+	IA1::Parser *verif = new IA1::Parser(logFile.str());
+	logFile.clear();
+	logFile << "Ref/resultCsv" << lenght << ".csv";
+	IA1::Core *core = new IA1::Core(logFile.str(), 1);
+	IA1::Parser *arg = new IA1::Parser(logFile.str());
 
 	std::string line = "";
 	std::map<IA1::argumentOrder,IA1::valueList> *maListe;
+	std::map<IA1::argumentOrder,IA1::valueList> *maVerif;
 	IA1::Answer res;
 	std::string resString = "";
 	std::vector<std::string> *vector;
 	// log
 	std::ofstream log;
 
-	std::ostringstream logFile;
+	logFile.clear();
 	logFile << "log/log" << lenght << ".csv";
 
 	log.open(logFile.str(), std::ios::out);
 	
-	IA1::Core *core = new IA1::Core("resultCsv.csv", 1);
 	/* Timer Ini*/
 	LARGE_INTEGER frequency; 
 	LARGE_INTEGER start, stop;
 	QueryPerformanceFrequency(&frequency);
 	QueryPerformanceCounter(&start);
 	/* Timer Ini - End */
-
-
+	
+	int total = 0;
+	int verified = 0;
 	// Si on veut tester plein de compos en ligne
 	while ((maListe = arg->getLine()) != NULL)
 	{
+		maVerif = verif->getLine();
 		QueryPerformanceCounter(&start);
 		res = core->runCore(*maListe);
 		resString = (res.getResult() == IA1::controlled ? "yes" : (res.getResult() == IA1::notControlled ? "no" : "")); 
@@ -79,22 +96,34 @@ void	calculate(IA1::Parser* vv, int lenght)
 		std::cout << std::endl;*/
 		
 		QueryPerformanceCounter(&stop);
-//		std::cout <<  std::boolalpha <<  csv.isControlate(*arg->unParseLine(*maListe, resString)) << std::endl;
-		log << csv.isControlate(*arg->unParseLine(*maListe, resString)) << ';' <<  (stop.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart << ';' << std::endl;
+		//std::cout <<  std::boolalpha << res.getResult() << ' ' << csv.isControlate(*arg->unParseLine(*maListe, resString)) << std::endl;
+		bool realAnwser = false;
+		if (maVerif->find(IA1::control)->second == IA1::yes)
+			realAnwser = true;
+		if ((bool)realAnwser == (bool)res.getResult())
+			verified++;
+		total++;
+		//std::cout <<  std::boolalpha <<  res2 << std::endl;
+//		log << res2 << ';' <<  (stop.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart << ';' << std::endl;
 		delete maListe, vector, res;
 	}
 	log.close();
-	std::cout << "Done : " << lenght << std::endl;
+	if (total != 0)
+		std::cout << "Done : " << lenght << " : "  << (verified / total) * 100 << std::endl;
+	else
+		std::cout << "Done : " << lenght << " : "  << "bug" << std::endl;
 	delete core;
 
 }
 
 int main(int ac, char** av)
 {
-
-	
 	IA1::Parser *arg = NULL;
 	
+	calculate(arg, 5);
+	calculate(arg, 10);
+	calculate(arg, 20);
+	calculate(arg, 50);
 	calculate(arg, 100);
 	calculate(arg, 250);
 	calculate(arg, 500);

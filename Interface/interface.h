@@ -18,6 +18,7 @@
 #include "IA1_Parameter.h"
 #include "IA1_Parameter.h"
 #include "ui_interface.h"
+#include "CsvGenerator.h"
 
 
 
@@ -29,8 +30,6 @@ public:
 	Interface(QWidget *parent = 0, Qt::WFlags flags = 0);
 	~Interface();
 
-	IA1::Parser *arg;
-	IA1::Core *core;
 
 public slots:
 	void buttonCheckClicked();
@@ -39,6 +38,11 @@ public slots:
 
 private:
 	Ui::InterfaceClass ui;
+	IA1::Parser *parser;
+	IA1::Core *core;
+	CsvGenerator generator;
+	std::map<IA1::argumentOrder, IA1::valueList> toParseMap;
+	bool	res;
 };
 
 #endif // INTERFACE_H
